@@ -19,7 +19,6 @@
                  {
                      var myresponse = JSON.parse(xmlhttp.responseText);
                      document.getElementById("myDiv").innerHTML=myresponse.id;
-//                     document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
                  }
              }
              var myid = document.getElementById('userid').value;
@@ -34,7 +33,5 @@
         <input id="userid" type="text" name="id"> 
         <button type="button" onclick="loadXMLDoc()">get id</button><br>
         ID belongs to <span id="myDiv"></span>
-
-
     </body>
 </html>
