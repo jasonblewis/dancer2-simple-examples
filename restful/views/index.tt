@@ -22,14 +22,16 @@
 //                     document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
                  }
              }
-             xmlhttp.open("GET","/user/42.json",true);
+             var myid = document.getElementById('userid').value;
+             var url = "/user/";
+             xmlhttp.open("GET",url.concat(myid,".json"),true);
              xmlhttp.send();
          }
         </script>
     </head>
     <body>
         Enter an ID (42 or 43)
-        <input type="text" name="id"> 
+        <input id="userid" type="text" name="id"> 
         <button type="button" onclick="loadXMLDoc()">get id</button><br>
         ID belongs to <span id="myDiv"></span>
 
