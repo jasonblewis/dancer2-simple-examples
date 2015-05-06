@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html class=''>
+<html>
+<head>
+    <title>Dancr</title>
+    <link rel="stylesheet" href="[% uri_base %]/css/style.css" />
+    <script src="[% uri_base %]/javascripts/jquery-2.1.3.min.js"></script>
+</head>
+<body>
+  <div class=page>
+  [% content %]
+</div>
+</body>
+</html>

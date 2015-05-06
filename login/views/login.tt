@@ -1,0 +1,15 @@
+<h2>Login</h2>
+[% error %]
+<section class="loginform cf">
+<form name="login" action="/login" method="post" accept-charset="utf-8">
+    <ul>
+        <li><label for="user">Login</label>
+        <input type="text" name="user" placeholder="username" required></li>
+        <li><label for="password">Password</label>
+        <input type="password" name="password" placeholder="password" required></li>
+        <li><input type="submit" value="Login"></li>
+    </ul>
+    <input type="text" name="return_url" value="[% return_url %]" >
+</form>
+</section>
+
