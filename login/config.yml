@@ -1,0 +1,6 @@
+session: "YAML"
+ 
+engines:
+  session:
+    YAML:
+      session_dir: "dancer-sessions"

@@ -2,9 +2,8 @@ use 5.014;
 use Dancer2;
 use lib './lib';
 use Dancer2::Plugin::Auth::Tiny;
-use Dancer2::Session::Simple;
+use Dancer2::Session::YAML;
 
-set 'session'      => 'Simple';
 set 'template'     => 'template_toolkit';
 set 'logger'       => 'console';
 set 'log'          => 'debug';
@@ -40,3 +39,5 @@ sub _is_valid {
 
 
 dance;
+
+#curl -v -c cookies.txt --data-urlencode "user=jason" --data-urlencode "password=mypass" --data-urlencode "return_url=http://debian:5000/private" -L http://debian:5000/login
