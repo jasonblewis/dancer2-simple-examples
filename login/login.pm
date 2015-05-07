@@ -2,7 +2,6 @@ use 5.014;
 use Dancer2;
 use lib './lib';
 use Dancer2::Plugin::Auth::Tiny;
-use Dancer2::Session::YAML;
 
 set 'template'     => 'template_toolkit';
 set 'logger'       => 'console';
@@ -13,14 +12,23 @@ set 'warnings'     => 1;
 set 'layout'       => 'main';
 
 
+get '/' => sub {
+    "homepage";
+};
 
 get '/private' => needs login => sub {
-    say "in private";
-    return "you reached a private url";
+    template 'private' => {
+        logout => uri_for('/logout'),
+    };
 };
 
 get '/login' => sub {
     template 'login' => { return_url => params->{return_url} };
+};
+
+get '/logout' => sub {
+    app->destroy_session;
+    return redirect '/' ;
 };
 
 post '/login' => sub {
