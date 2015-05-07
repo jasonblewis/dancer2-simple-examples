@@ -5,6 +5,8 @@ use warnings;
 
 use MyApp::Schema;
 
+use MyApp::Form::Artist;
+
 use Dancer2;
 
 set 'session'      => 'Simple';
@@ -26,11 +28,16 @@ get '/' => sub {
     my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
     my @all_artists = $schema->resultset('Artist')->all;
     template 'artists', {
-        artists => @all_artists,
+        artists => \@all_artists,
     };
-    
 };
 
+get '/artist' => sub {
+    my $artist_form = MyApp::Form::Artist->new();
+    template 'artist' => {
+        form => $artist_form,
+    };
+};
 
 start;
 

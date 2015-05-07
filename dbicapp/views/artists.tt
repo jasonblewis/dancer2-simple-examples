@@ -1,1 +1,6 @@
 <h2>artists</h2>
+
+
+[% FOREACH artist IN artists  %]
+    [% artist.name  %]<br>
+[% END %]
