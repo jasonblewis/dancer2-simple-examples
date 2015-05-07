@@ -33,7 +33,14 @@ get '/' => sub {
 };
 
 get '/artist' => sub {
-    my $artist_form = MyApp::Form::Artist->new();
+    my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
+    # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
+    # driver, e.g perldoc L<DBD::mysql>.
+    my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
+    my $artist = $schema->resultset('Artist')->find(1);
+
+
+    my $artist_form = MyApp::Form::Artist->new($artist);
     template 'artist' => {
         form => $artist_form,
     };
