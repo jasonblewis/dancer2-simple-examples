@@ -14,16 +14,12 @@ has_field 'cds.title';
 has_field 'cds.year' => (
     type => 'Compound',
     apply => [ { transform => sub{ DateTime->new( $_[0] ) } } ],
-    deflation => sub { { year => $_[0]->year, month => $_[0]->month, day => $_[0]->day } },
+    deflation => sub { { myyear => $_[0]->year, mymonth => $_[0]->month, myday => $_[0]->day } },
     fif_from_value => 1,
 );
-has_field 'cds.year.year';
-has_field 'cds.year.month';
-has_field 'cds.year.day';
-
-
-
-
+has_field 'cds.year.myyear' => (label => 'year', );
+has_field 'cds.year.mymonth'=> (label => 'month', );
+has_field 'cds.year.myday'  => (label => 'day', );
 
 has_field submit => ( type => 'Submit', value => 'Update', element_class => ['btn'] );
 

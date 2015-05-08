@@ -6,6 +6,8 @@ use warnings;
 use MyApp::Schema;
 
 use MyApp::Form::Artist;
+use Data::Dumper;
+use DateTime;
 
 use Dancer2;
 
@@ -41,6 +43,7 @@ get '/artist' => sub {
 
 
     my $artist_form = MyApp::Form::Artist->new($artist);
+    print Dumper($artist->cds);
     template 'artist' => {
         form => $artist_form,
     };
