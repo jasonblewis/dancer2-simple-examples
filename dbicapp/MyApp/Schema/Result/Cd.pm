@@ -5,6 +5,8 @@ use strict;
 
 use base qw( DBIx::Class::Core );
 
+__PACKAGE__->load_components(qw/InflateColumn::DateTime/);
+
 __PACKAGE__->table('cd');
 
 __PACKAGE__->add_columns(

@@ -10,7 +10,21 @@ has_field 'name' => ( type => 'Text' );
 has_field 'cds' => (type => 'Repeatable');
 has_field 'cds.cdid' => ( type => 'PrimaryKey' );
 has_field 'cds.title';
-has_field 'cds.year' => (type => 'Date');
+
+has_field 'cds.year' => (
+    type => 'Compound',
+    apply => [ { transform => sub{ DateTime->new( $_[0] ) } } ],
+    deflation => sub { { year => $_[0]->year, month => $_[0]->month, day => $_[0]->day } },
+    fif_from_value => 1,
+);
+has_field 'cds.year.year';
+has_field 'cds.year.month';
+has_field 'cds.year.day';
+
+
+
+
+
 has_field submit => ( type => 'Submit', value => 'Update', element_class => ['btn'] );
 
 no HTML::FormHandler::Moose;
