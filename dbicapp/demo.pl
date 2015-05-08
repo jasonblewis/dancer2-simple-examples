@@ -46,6 +46,10 @@ get '/artist' => sub {
     };
 };
 
+post '/artist' => sub {
+    
+};
+
 start;
 
 

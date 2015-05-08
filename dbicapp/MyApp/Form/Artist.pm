@@ -10,7 +10,8 @@ has_field 'name' => ( type => 'Text' );
 has_field 'cds' => (type => 'Repeatable');
 has_field 'cds.cdid' => ( type => 'PrimaryKey' );
 has_field 'cds.title';
-has_field 'cds.year';
+has_field 'cds.year' => (type => 'Date');
+has_field submit => ( type => 'Submit', value => 'Update', element_class => ['btn'] );
 
 no HTML::FormHandler::Moose;
 
