@@ -21,8 +21,8 @@ __PACKAGE__->add_columns(
     data_type => 'text',
   },
   year => {
-    data_type => 'datetime',
-    is_nullable => 1,
+      data_type => 'datetime',
+      is_nullable => 1,
   },
 );
 

@@ -43,14 +43,14 @@ get '/artist' => sub {
 
 
     my $artist_form = MyApp::Form::Artist->new($artist);
-    print Dumper($artist->cds);
+    print Dumper( ($artist->cds)[0]->year );
     template 'artist' => {
         form => $artist_form,
     };
 };
 
 post '/artist' => sub {
-    
+
 };
 
 start;
