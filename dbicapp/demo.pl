@@ -10,6 +10,8 @@ use Data::Dumper;
 use DateTime;
 
 use Dancer2;
+set port => '5000';
+
 
 set 'session'      => 'Simple';
 set 'template'     => 'template_toolkit';
@@ -34,12 +36,12 @@ get '/' => sub {
     };
 };
 
-get '/artist' => sub {
+get '/artist/:artistid' => sub {
     my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
     # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
     # driver, e.g perldoc L<DBD::mysql>.
     my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
-    my $artist = $schema->resultset('Artist')->find(1);
+    my $artist = $schema->resultset('Artist')->find(params->{artistid});
 
 
     my $artist_form = MyApp::Form::Artist->new($artist);
@@ -50,7 +52,17 @@ get '/artist' => sub {
 };
 
 post '/artist' => sub {
+    my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
+    # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
+    # driver, e.g perldoc L<DBD::mysql>.
+    my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
+    my $artist = $schema->resultset('Artist')->find(params->{artistid});
 
+    my $artist_form = MyApp::Form::Artist->new($artist);
+    print Dumper (scalar params);
+    $artist_form->process(item_id => params->{artistid},
+                          schema => $schema,
+                          params => scalar params);
 };
 
 start;

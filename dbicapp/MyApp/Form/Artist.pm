@@ -1,6 +1,7 @@
 package MyApp::Form::Artist;
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Model::DBIC';
+with 'HTML::FormHandler::Render::Table';
 
 has '+item_class' => ( default => 'Artist' );
 
@@ -17,9 +18,9 @@ has_field 'cds.year' => (
     deflation => sub { { myyear => $_[0]->year, mymonth => $_[0]->month, myday => $_[0]->day } },
     fif_from_value => 1,
 );
-has_field 'cds.year.myyear' => (label => 'year', );
-has_field 'cds.year.mymonth'=> (label => 'month', );
-has_field 'cds.year.myday'  => (label => 'day', );
+has_field 'cds.year.year' ;
+#has_field 'cds.year.month';
+#has_field 'cds.year.day'  ;
 
 has_field submit => ( type => 'Submit', value => 'Update', element_class => ['btn'] );
 
