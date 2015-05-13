@@ -1,0 +1,39 @@
+<h2>datatables example</h2>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="/javascripts/DataTables-1.10.7/media/css/jquery.dataTables.css">
+  
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="/javascripts/jquery-2.1.4.js"></script>
+  
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="javascripts/DataTables-1.10.7/media/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready( function () {
+        $('#example').dataTable(
+            { "ajax": {
+                "url": '/users.json',
+                "data": '',
+                "dataType": "json"
+                }
+        } );
+    } );
+</script>
+
+
+<table id="example" class="display" cellspacing="0">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+            </tr>
+        </thead>
+ 
+        <tfoot>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+            </tr>
+        </tfoot>
+</table>
+
