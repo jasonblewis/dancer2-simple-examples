@@ -19,7 +19,7 @@ has_field 'cds.year' => (
     type => 'Date', format => 'dd/mm/y',
 );
 
-has_field submit => ( type => 'Submit', value => 'Update', element_class => ['btn'] );
+has_field submit => ( type => 'Submit', value => 'Update', element_class => ['btn'], noupdate => 1 );
 
 no HTML::FormHandler::Moose;
 

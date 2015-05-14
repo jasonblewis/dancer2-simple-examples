@@ -55,16 +55,39 @@ get '/a/:artistid' => sub {
                        };
 };
 
-
-post '/artist' => sub {
-  my $artist = rset('Artist')->find(params->{artistid});
-
-  my $artist_form = MyApp::Form::Artist->new($artist);
-  print Dumper (scalar params);
-  $artist_form->process(item_id => params->{artistid},
-                        schema => schema,
-                        params => scalar params);
+get '/artist/' => sub {
+  my $artist_form = MyApp::Form::Artist->new();
+  template 'artist' => {
+                        form => $artist_form,
+                       };
+  # return 'get artist';
 };
+
+post '/artist/' => sub {
+  my $artist = rset('Artist')->find_or_new(scalar params);
+
+  my $artist_form = MyApp::Form::Artist->new();
+  if ($artist_form->process( item => $artist,
+                             params => scalar params )) {
+    # form validated ok.
+    print "value: " . Dumper($artist_form->value);
+    $artist->insert;
+  } else {
+    return 'error validating form';
+  }
+
+  print Dumper($artist_form)
+};
+
+# post '/artist' => sub {
+#   my $artist = rset('Artist')->find(params->{artistid});
+
+#   my $artist_form = MyApp::Form::Artist->new($artist);
+#   print Dumper (scalar params);
+#   $artist_form->process(item_id => params->{artistid},
+#                         schema => schema,
+#                         params => scalar params);
+# };
 
 
 start;
