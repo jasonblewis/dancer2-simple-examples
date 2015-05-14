@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Carp::Always;
 
 use MyApp::Schema;
 
@@ -10,78 +11,59 @@ use Data::Dumper;
 use DateTime;
 
 use Dancer2;
-set port => '5000';
+use Dancer2::Plugin::DBIC qw(schema resultset rset);
+use Path::Class;
+
+set port         => 5000;
+set session      => 'Simple';
+set template     => 'template_toolkit';
+set logger       => 'console';
+set log          => 'debug';
+set show_errors  => 1;
+set startup_info => 1;
+set warnings     => 1;
+set layout       => 'main';
 
 
-set 'session'      => 'Simple';
-set 'template'     => 'template_toolkit';
-set 'logger'       => 'console';
-set 'log'          => 'debug';
-set 'show_errors'  => 1;
-set 'startup_info' => 1;
-set 'warnings'     => 1;
-set 'layout'       => 'main';
-
-
-use Path::Class 'file';
 
 get '/' => sub {
-    my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
-    # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
-    # driver, e.g perldoc L<DBD::mysql>.
-    my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
-    my @all_artists = $schema->resultset('Artist')->all;
-    template 'artists', {
-        artists => \@all_artists,
-    };
+  my @all_artists = rset('Artist')->all;
+  template 'artists', {
+                       artists => \@all_artists,
+                      };
 };
 
 get '/artist/:artistid' => sub {
-    my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
-    # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
-    # driver, e.g perldoc L<DBD::mysql>.
-    my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
-    my $artist = $schema->resultset('Artist')->find(params->{artistid});
-
-    if ($artist) {
-        my $artist_form = MyApp::Form::Artist->new($artist);
-        print Dumper( ($artist->cds)[0]->year );
-        template 'artist' => {
-            form => $artist_form,
-        };
-    } else {
-        return "artist not found";
-    };
+  my $artist = rset('Artist')->find(params->{artistid});
+  if ($artist) {
+    my $artist_form = MyApp::Form::Artist->new($artist);
+    template 'artist' => {
+                          form => $artist_form,
+                         };
+  } else {
+    return "artist not found";
+  }
 };
 
-# get '/a/:artistid' => sub {
-#     my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
-#     # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
-#     # driver, e.g perldoc L<DBD::mysql>.
-#     my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
-# #    my $artist = $schema->resultset('Artist')->find(params->{artistid});
+get '/a/:artistid' => sub {
+  my $artist = rset('Artist')->find(params->{artistid});
 
-
-#     my $artist_form = MyApp::Form::Artist->new($artist);
-#     print Dumper( ($artist->cds)[0]->year );
-#     template 'artist' => {
-#         form => $artist_form,
-#     };
-# };
+  my $artist_form = MyApp::Form::Artist->new($artist);
+  print Dumper( ($artist->cds)[0]->year );
+  template 'artist' => {
+                        form => $artist_form,
+                       };
+};
 
 
 post '/artist' => sub {
-    my $db_fn = file($INC{'MyApp/Schema.pm'})->dir->parent->file('db/example.db');
-    # for other DSNs, e.g. MySql, see the perldoc for the relevant dbd
-    # driver, e.g perldoc L<DBD::mysql>.
-    my $schema = MyApp::Schema->connect("dbi:SQLite:$db_fn");
-    my $artist = $schema->resultset('Artist')->find(params->{artistid});
+  my $artist = rset('Artist')->find(params->{artistid});
 
-    my $artist_form = MyApp::Form::Artist->new($artist);
-    print Dumper (scalar params);
-    $artist_form->process(item_id => params->{artistid},
-                          schema => $schema,
-                          params => scalar params);
+  my $artist_form = MyApp::Form::Artist->new($artist);
+  print Dumper (scalar params);
+  $artist_form->process(item_id => params->{artistid},
+                        schema => schema,
+                        params => scalar params);
 };
 
 
