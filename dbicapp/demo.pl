@@ -12,7 +12,10 @@ use DateTime;
 
 use Dancer2;
 use Dancer2::Plugin::DBIC qw(schema resultset rset);
+use DBIx::Class::ResultClass::HashRefInflator;
 use Path::Class;
+
+use JSON;
 
 set port         => 5000;
 set session      => 'Simple';
@@ -77,6 +80,17 @@ post '/artist/' => sub {
   }
 
   print Dumper($artist_form)
+};
+
+
+get '/artist.json/:artistid' => sub {
+  my $artist = rset('Artist')->find(params->{artistid});
+  $artist->result_class('DBIx::Class::ResultClass::HashRefInflator');
+  #print Dumper $artist;
+  my $json = JSON::XS->new;
+  my $data = $json->convert_blessed->encode($artist);
+  #print $q->header('application/json;charset=utf-8'), $data;
+  return $data;
 };
 
 # post '/artist' => sub {

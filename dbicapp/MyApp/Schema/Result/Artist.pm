@@ -5,6 +5,8 @@ use strict;
 
 use base qw( DBIx::Class::Core );
 
+__PACKAGE__->load_components(qw{Helper::Row::ToJSON});
+
 __PACKAGE__->table('artist');
 
 __PACKAGE__->add_columns(

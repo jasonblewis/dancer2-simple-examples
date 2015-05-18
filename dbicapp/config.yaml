@@ -2,3 +2,7 @@ plugins:
   DBIC:
     default:
       dsn: dbi:SQLite:dbname=db/example.db
+engines:
+  JSON:
+    convert_blessed: '1'
+    
