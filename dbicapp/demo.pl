@@ -67,19 +67,22 @@ get '/artist/' => sub {
 };
 
 post '/artist/' => sub {
-  my $artist = rset('Artist')->find_or_new(scalar params);
-
-  my $artist_form = MyApp::Form::Artist->new();
-  if ($artist_form->process( item => $artist,
-                             params => scalar params )) {
+  # print Dumper(scalar params);
+  my $artist = rset('Artist')->new_result({});
+  my $artist_form = MyApp::Form::Artist->new(schema => schema);
+  if ($artist_form->process(
+                            # item_id => params->{artistid},
+                            item => $artist,
+                            params => scalar params
+                           )) {
     # form validated ok.
-    print "value: " . Dumper($artist_form->value);
-    $artist->insert;
+    # print "value: " . Dumper($artist_form->value);
+    redirect sprintf "/artist/%d", $artist->artistid;
   } else {
-    return 'error validating form';
+    return sprintf "%s\n%s\n",
+      Dumper($artist_form->errors),
+      Dumper($artist_form->error_field_names);
   }
-
-  print Dumper($artist_form)
 };
 
 
@@ -93,15 +96,6 @@ get '/artist.json/:artistid' => sub {
   return $data;
 };
 
-# post '/artist' => sub {
-#   my $artist = rset('Artist')->find(params->{artistid});
-
-#   my $artist_form = MyApp::Form::Artist->new($artist);
-#   print Dumper (scalar params);
-#   $artist_form->process(item_id => params->{artistid},
-#                         schema => schema,
-#                         params => scalar params);
-# };
 
 
 start;
