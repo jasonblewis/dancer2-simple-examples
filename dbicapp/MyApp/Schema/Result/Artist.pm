@@ -25,12 +25,12 @@ __PACKAGE__->add_unique_constraint([qw( name )]);
 
 __PACKAGE__->has_many('cds' => 'MyApp::Schema::Result::Cd', 'artistid');
 
-sub TO_JSON {
-   return {
-      artistid => $self->artistid,
-      name     => $self->name,
-   }
-}
+# sub TO_JSON {
+#    return {
+#       artistid => $self->artistid,
+#       name     => $self->name,
+#    }
+# }
 
 
 1;

@@ -86,6 +86,9 @@ post '/artist/' => sub {
 };
 
 
+set serializer => 'JSON';
+
+
 get '/artist.json/:artistid' => sub {
   my $artist = rset('Artist')->find(params->{artistid});
 
