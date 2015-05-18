@@ -88,11 +88,9 @@ post '/artist/' => sub {
 
 get '/artist.json/:artistid' => sub {
   my $artist = rset('Artist')->find(params->{artistid});
-  $artist->result_class('DBIx::Class::ResultClass::HashRefInflator');
-  #print Dumper $artist;
-  my $json = JSON::XS->new;
-  my $data = $json->convert_blessed->encode($artist);
-  #print $q->header('application/json;charset=utf-8'), $data;
+
+
+
   return $data;
 };
 
